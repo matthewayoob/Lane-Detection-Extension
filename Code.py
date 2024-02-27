@@ -1,5 +1,5 @@
-Original Code: 
-// Lanes on the roads are usually thin and long lines with bright colors. Our edge detection algorithm by itself should be able to find the lanes pretty well. Run the code cell below to load the example image and detect edges from the image.
+# Original Code: 
+# Lanes on the roads are usually thin and long lines with bright colors. Our edge detection algorithm by itself should be able to find the lanes pretty well. Run the code cell below to load the example image and detect edges from the image.
 from edge import canny
 
 # Load image
@@ -20,7 +20,8 @@ plt.title('Edges')
 plt.show()
 
 
-// We can see that the Canny edge detector could find the edges of the lanes. However, we can also see that there are edges of other objects that we are not interested in. Given the position and orientation of the camera, we know that the lanes will be located in the lower half of the image. The code below defines a binary mask for the ROI and extract the edges within the region.
+#  We can see that the Canny edge detector could find the edges of the lanes. However, we can also see that there are edges of other objects that we are not interested in. Given the position and orientation of the camera, we know that the lanes will be located in the lower half of the image. The code below defines a binary mask for the ROI and extract the edges within the region.
+
 H, W = img.shape
 
 # Generate mask for ROI (Region of Interest)
@@ -45,7 +46,7 @@ plt.axis('off')
 plt.show()
 
 
-// Fitting lines using Hough transform
+# Fitting lines using Hough transform
 
 from edge import hough_transform
 
@@ -99,7 +100,7 @@ plt.plot(xs_left, ys_left, linewidth=5.0)
 plt.plot(xs_right, ys_right, linewidth=5.0)
 plt.axis('off')
 
-/* What I was thinking about ... 
+''' What I was thinking about ... 
 Here are some ways the edge detection algorithm could be improved for better lane line detection:
 1. Apply morphological operations like dilation to connect broken edges from the lane lines into longer continuous edges. This would help the Hough transform detect longer straight lines.
 2. Use a polygon shaped mask instead of a rectangular mask to better isolate the lane line area and remove edges from irrelevant objects.
@@ -111,7 +112,7 @@ Here are some ways the edge detection algorithm could be improved for better lan
 8. Exploit domain knowledge like lane width constraints and vehicle orientation to improve line fitting. */
 
 
-// So I created this...
+// So I created this... '''
 import cv2
 import numpy as np
 from skimage.morphology import dilation
@@ -158,8 +159,9 @@ cv2.imshow('lane_lines', img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
-//This uses color thresholds, morphological operations, and Canny+Hough Transform to detect lane lines. The modifications should make it more robust by targeting specific colors, connecting broken edges, and allowing small gaps when fitting lines.
-/* 
+#This uses color thresholds, morphological operations, and Canny+Hough Transform to detect lane lines. The modifications should make it more robust by targeting specific colors, connecting broken edges, and allowing small gaps when fitting lines.
+
+'''
 Comparing the modified lane line detection code to the original, here are some key differences in performance:
 1. Accuracy - The modified code detects lane lines more accurately by using color thresholds specifically for white and yellow lines, rather than just intensity edges which could include irrelevant objects.
 2. Robustness - By morphologically dilating the binary mask, small gaps in the lane lines are connected into continuous edges which are easier for the Hough transform to detect. This makes the algorithm work better on images with faded/cracked paint.
@@ -167,9 +169,9 @@ Comparing the modified lane line detection code to the original, here are some k
 4. False Positives - The specificity from the color thresholds results in fewer false positive detections from non-lane edges like road cracks or curbs. This reduces clutter in the output image.
 5. Parameter Tuning - Additional parameters like color thresholds and morphological kernel size have been introduced, which require proper tuning based on lighting conditions for optimal performance.
 In summary, for straight and well-painted lane lines under good lighting, the original algorithm already works decently. But on challenging roads with faded markings or curves, the modifications help substantially in extracting the correct lane lines cleanly. The tradeoff is increased tuning complexity. Overall I would say the changes enhance the real-world viability of the lane line detection system. */
+'''
 
-
-// Additionally, I applied it to my own images
+# Additionally, I applied it to my own images
 import cv2
 import matplotlib.pyplot as plt
 
@@ -197,7 +199,7 @@ sobel_edges = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=5)
 laplacian_edges = cv2.Laplacian(img, cv2.CV_64F)
 
 
-/*
+'''
 Potential failure cases for Canny edge detection:
 * Curved/winding lanes - Canny detects straight line edges, so may miss edges of curved lanes
 * Faded lane markings - Low contrast with the road surface can make it hard to detect those edges
@@ -221,8 +223,9 @@ Therefore, I wanted to create a more robust script that performs better on these
 4. Visual comparison
 5. Quantitative evaluation using precision, recall etc.
 */
+'''
 
-//Finally, I modified it further to address the above concerns. 
+#Finally, I modified it further to address the above concerns. 
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
